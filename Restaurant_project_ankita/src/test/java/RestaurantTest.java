@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -29,6 +31,7 @@ class RestaurantTest {
         restaurant = null;
     }
 
+    //>>>>>>>>>>>>>>>>>>>>>>>>>OPEN/CLOSED<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     @Test
     public void is_restaurant_open_should_return_true_if_time_is_between_opening_and_closing_time(){
 
@@ -62,6 +65,7 @@ class RestaurantTest {
         assertThat(isRestaurantOpen,equalTo(false));
 
     }
+    //<<<<<<<<<<<<<<<<<<<<<<<<<OPEN/CLOSED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>MENU<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     @Test
@@ -85,4 +89,25 @@ class RestaurantTest {
                 ()->restaurant.removeFromMenu("French fries"));
     }
     //<<<<<<<<<<<<<<<<<<<<<<<MENU>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+    //>>>>>>>>>>>>>>>>>>>>>>>ITEM COST<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    @Test
+    public void when_no_item_selected_total_cost_should_be_zero() {
+        List<Item> menuItems = new ArrayList<Item>();
+        int totalCost = restaurant.getTotalCost(menuItems);
+        assertEquals(0, totalCost);
+    }
+
+    @Test
+    public void when_one_or_more_item_selected_accumulated_cost_as_total_cost() {
+
+        List<Item> menuItems = new ArrayList<Item>();
+        menuItems.add(new Item("Sweet corn soup",100));
+        menuItems.add(new Item("Vegetable lasagne", 200));
+        menuItems.add(new Item("Pizza", 300));
+
+        int totalCost = restaurant.getTotalCost(menuItems);
+        assertEquals(600, totalCost);
+    }
+    //<<<<<<<<<<<<<<<<<<<<<<<ITEM COST>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 }
